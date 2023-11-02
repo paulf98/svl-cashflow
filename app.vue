@@ -1,5 +1,5 @@
 <template>
-  <div>
-    <h1>Hello world!</h1>
+  <div class="p-4">
+    <Balance />
   </div>
 </template>
