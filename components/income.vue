@@ -2,7 +2,6 @@
 import { useBookingsStore } from '@/stores/bookings'
 
 const bookings = useBookingsStore()
-
 const data = bookings.getAllIncome;
 
 const columns = [
@@ -30,10 +29,10 @@ const items = (row: any) => [
 
 <template>
     <div>
-        <UButton icon="i-heroicons-plus" block truncate class="my-2" @click="() => {
-            console.log('Neue Einnahme buchen')
-        }">Neue
-            Einnahme buchen</UButton>
+        <UButton icon="i-heroicons-plus" block truncate class="my-2" @click="() => navigateTo('/add-booking')">Neue
+            Einnahme buchen
+        </UButton>
+
         <div class="flex py-3.5 border-b border-gray-200 dark:border-gray-700">
             <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Anzeige" />
         </div>

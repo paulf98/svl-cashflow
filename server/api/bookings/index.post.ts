@@ -31,6 +31,7 @@ export default defineEventHandler(async (event) => {
 	const booking = await prisma.booking.create({
 		data: {
 			...data,
+			amount: Number(data.amount),
 			updatedAt: new Date(),
 			createdById: user.id,
 		},

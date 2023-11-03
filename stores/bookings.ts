@@ -17,10 +17,18 @@ export const useBookingsStore = defineStore('bookings', {
 		},
 	},
 	actions: {
-		async addBooking({ name, amount }: { name: string; amount: number }) {
+		async addBooking({
+			name,
+			amount,
+			createdAt,
+		}: {
+			name: string;
+			amount: number;
+			createdAt?: Date;
+		}) {
 			const response = await useFetch('/api/bookings', {
 				method: 'POST',
-				body: { name, amount },
+				body: { name, amount, createdAt },
 			}).data.value;
 			if (response && 'body' in response) {
 				// de-serialize the body from the response, need to convert date fields from strings to Date objects

@@ -30,12 +30,10 @@ const items = (row: any) => [
 
 <template>
     <div>
-        <UButton color="red" icon="i-heroicons-minus" block truncate class="my-2" @click="() => {
-            console.log('Neue Ausgabe buchen')
-        }">
+        <UButton color="red" icon="i-heroicons-minus" block truncate class="my-2" @click="() => navigateTo('/add-booking')">
             Neue Ausgabe buchen
         </UButton>
-        <div class="flex py-3.5 border-b border-gray-200 dark:border-gray-700">
+        <div class=" flex py-3.5 border-b border-gray-200 dark:border-gray-700">
             <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Anzeige" />
         </div>
         <UTable :columns="selectedColumns" :rows="data">
