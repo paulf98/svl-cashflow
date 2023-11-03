@@ -1,6 +1,10 @@
 <script setup lang="ts">
+import { useBookingsStore } from '@/stores/bookings'
 
-const data = await useFetch('/api/bookings/expenses', { method: 'GET' }).data.value?.body;
+const bookings = useBookingsStore()
+await bookings.fetchAllExpenses()
+
+const data = bookings.getAllExpenses;
 
 const columns = [
     { key: 'name', label: 'Name' },
@@ -10,7 +14,6 @@ const columns = [
 ]
 
 const selectedColumns = ref([columns[0], columns[1], columns[3]])
-
 
 const items = (row: any) => [
     [{

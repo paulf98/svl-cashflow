@@ -1,5 +1,5 @@
 import { getServerSession } from '#auth';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
 		if (user) {
 			return {
 				status: 200,
-				body: user,
+				body: user as User,
 			};
 		} else {
 			// write the new user to the database
@@ -30,7 +30,7 @@ export default defineEventHandler(async (event) => {
 			});
 			return {
 				status: 200,
-				body: newUser,
+				body: newUser as User,
 			};
 		}
 	}
