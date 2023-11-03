@@ -2,7 +2,11 @@
 <template>
   <div class="container mx-auto flex flex-col justify-center items-center p-4 border rounded-lg shadow-md max-w-sm">
     <h2 class="text-xl mb-2 text-gray-700">Kontostand</h2>
-    <p :class="`text-6xl font-bold ${balance > 0 ? 'text-green-600' : 'text-red-600'}`">{{ balance }} €</p>
+    <p class="text-6xl font-bold" :class="{
+      'text-green-600': balance > 0,
+      'text-red-600': balance < 0,
+      'text-gray-600': balance === 0
+    }">{{ balance }} €</p>
   </div>
 </template>
 
