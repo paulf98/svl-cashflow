@@ -2,11 +2,7 @@
 
 import { ref } from 'vue'
 
-const data = ref([
-    { id: 1, name: 'Einnahme 1', amount: 1000, date: '2021-01-01' },
-    { id: 2, name: 'Einnahme 2', amount: 2000, date: '2021-01-02' },
-    { id: 3, name: 'Einnahme 3', amount: 3000, date: '2021-01-03' },
-])
+const data = await useFetch('/api/bookings/income', { method: "GET" }).data.value?.body
 
 const columns = [
     { key: 'name', label: 'Name' },
@@ -16,7 +12,6 @@ const columns = [
 ]
 
 const selectedColumns = ref([columns[0], columns[1], columns[3]])
-
 
 const items = (row: any) => [
     [{
@@ -36,7 +31,6 @@ const items = (row: any) => [
     <div>
         <UButton icon="i-heroicons-plus" block truncate class="my-2" @click="() => {
             console.log('Neue Einnahme buchen')
-            data.push({ id: Math.random(), name: 'Neue Einnahme', amount: Math.round(Math.random() * 10000), date: '2021-01-04' })
         }">Neue
             Einnahme buchen</UButton>
         <div class="flex py-3.5 border-b border-gray-200 dark:border-gray-700">
