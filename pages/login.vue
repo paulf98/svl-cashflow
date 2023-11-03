@@ -10,7 +10,11 @@ const { signIn, getSession } = useAuth()
 // redirect the user if they are already logged in
 const session = await getSession()
 if (session.user) {
-    navigateTo('/')
+    // make request to backend to check if the user already exists
+    const user = await useFetch('/api/user')
+    if (user) {
+        navigateTo('/')
+    }
 }
 </script>
 
