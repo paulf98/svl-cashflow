@@ -11,8 +11,18 @@ export const useUserStore = defineStore('user', {
 	},
 	actions: {
 		async setUser() {
-			const user = await useFetch('/api/user');
-			return user.data.value;
+			const user = await useFetch('/api/user').data.value?.body;
+			if (user) {
+				// de-serialize the body from the response, need to convert date fields from strings to Date objects
+				const userObj = {
+					...user,
+					createdAt: new Date(user.createdAt),
+					updatedAt: new Date(user.updatedAt),
+				};
+				this.user = userObj;
+				return userObj;
+			}
+			return {};
 		},
 	},
 });
