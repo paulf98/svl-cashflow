@@ -2,6 +2,7 @@ import { NuxtAuthHandler } from '#auth';
 import GoogleProvider from 'next-auth/providers/google';
 
 export default NuxtAuthHandler({
+	secret: process.env.GOOGLE_CLIENT_SECRET,
 	pages: {
 		// Change the default behavior to use `/login` as the path for the sign-in page
 		signIn: '/login',

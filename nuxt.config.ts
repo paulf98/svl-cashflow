@@ -5,6 +5,9 @@ export default defineNuxtConfig({
 	pinia: {
 		storesDirs: ['./stores/**'],
 	},
+	auth: {
+		origin: process.env.AUTH_ORIGIN,
+	},
 	colorMode: {
 		preference: 'light',
 	},
