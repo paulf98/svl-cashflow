@@ -1,18 +1,21 @@
 <script setup lang="ts">
+import { useUserStore } from '@/stores/user'
+
 definePageMeta({
     auth: {
         unauthenticatedOnly: true,
         navigateAuthenticatedTo: '/',
     }
 })
+
 const { signIn, getSession } = useAuth()
+const userStore = useUserStore()
 
 // redirect the user if they are already logged in
 const session = await getSession()
 if (session.user) {
-    // make request to backend to check if the user already exists
-    const user = await useFetch('/api/user')
-    if (user) {
+    await userStore.setUser()
+    if (userStore.hasUser) {
         navigateTo('/')
     }
 }
