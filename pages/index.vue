@@ -1,4 +1,9 @@
 <script setup>
+import { useBookingsStore } from '@/stores/bookings';
+
+const bookings = useBookingsStore();
+await bookings.fetchAllBookings();
+
 const { signIn, getSession } = useAuth();
 const data = await getSession();
 if (!data.user) {

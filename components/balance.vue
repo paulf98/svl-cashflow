@@ -1,6 +1,10 @@
 <script setup>
-const expenses = await useFetch('/api/bookings/expenses', { method: "GET" }).data.value?.body;
-const income = await useFetch('/api/bookings/income', { method: "GET" }).data.value?.body;
+import { useBookingsStore } from '@/stores/bookings';
+
+const bookings = useBookingsStore();
+
+const expenses = bookings.getAllExpenses;
+const income = bookings.getAllIncome;
 
 const balance = (income ? income.reduce((acc, cur) => acc + cur.amount, 0) : 0) - (expenses ? expenses.reduce((acc, cur) => acc - cur.amount, 0) : 0);
 const balanceClass = computed(

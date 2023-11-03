@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { useBookingsStore } from '@/stores/bookings'
 
-import { ref } from 'vue'
+const bookings = useBookingsStore()
 
-const data = await useFetch('/api/bookings/income', { method: "GET" }).data.value?.body
+const data = bookings.getAllIncome;
 
 const columns = [
     { key: 'name', label: 'Name' },

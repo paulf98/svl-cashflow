@@ -17,15 +17,24 @@ export const useBookingsStore = defineStore('bookings', {
 		},
 	},
 	actions: {
-		async addExpense({ name, amount }: { name: string; amount: number }) {
-			const bookings = await useFetch('/api/bookings/expenses', {
+		async addBooking({ name, amount }: { name: string; amount: number }) {
+			const response = await useFetch('/api/bookings', {
 				method: 'POST',
 				body: { name, amount },
-			});
-			return bookings.data.value;
+			}).data.value;
+			if (response && 'body' in response) {
+				// de-serialize the body from the response, need to convert date fields from strings to Date objects
+				const deserializedBody = {
+					...response.body,
+					createdAt: new Date(response.body.createdAt),
+					updatedAt: new Date(response.body.updatedAt),
+				};
+				this.bookings = [...this.bookings, deserializedBody];
+				return deserializedBody;
+			}
 		},
-		async fetchAllExpenses() {
-			const responseBody = await useFetch('/api/bookings/expenses', {
+		async fetchAllBookings() {
+			const responseBody = await useFetch('/api/bookings', {
 				method: 'GET',
 			}).data.value?.body;
 			// de-serialize the body from the response, need to convert date fields from strings to Date objects

@@ -2,7 +2,6 @@
 import { useBookingsStore } from '@/stores/bookings'
 
 const bookings = useBookingsStore()
-await bookings.fetchAllExpenses()
 
 const data = bookings.getAllExpenses;
 
@@ -33,13 +32,6 @@ const items = (row: any) => [
     <div>
         <UButton color="red" icon="i-heroicons-minus" block truncate class="my-2" @click="() => {
             console.log('Neue Ausgabe buchen')
-            useFetch('/api/bookings/expenses', {
-                method: 'POST',
-                body: {
-                    name: 'Test Ausgabe',
-                    amount: -100,
-                }
-            })
         }">
             Neue Ausgabe buchen
         </UButton>

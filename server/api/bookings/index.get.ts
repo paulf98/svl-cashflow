@@ -2,13 +2,11 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-// get the bookings from the database that have an amount that is smaller than 0
+// fetch all bookings from the database
 export default defineEventHandler(async (event) => {
 	const bookings = await prisma.booking.findMany({
-		where: {
-			amount: {
-				lt: 0,
-			},
+		orderBy: {
+			createdAt: 'desc',
 		},
 	});
 
