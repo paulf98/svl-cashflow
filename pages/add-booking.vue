@@ -17,7 +17,6 @@ const state = reactive({
 })
 
 const validate = (state: any): FormError[] => {
-    console.log(state)
     const errors = []
     if (!state.name) errors.push({ path: 'name', message: 'Bezeichnung der Buchung fehlt.' })
     if (!state.amount) errors.push({ path: 'amount', message: 'Betrag kann nicht leer sein.' })
@@ -41,8 +40,6 @@ const btnClasses = computed(() => {
 })
 
 async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
-    console.log(event)
-    console.log(state)
     const booking = {
         name: state.name,
         // amount is a string, so we need to convert it to a number
@@ -53,8 +50,7 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
 
     // add the booking to the store and database
     bookings.addBooking(booking).then(() => {
-        // show success message
-        console.log('worked')
+        // TODO: show success message
 
         // then reset the form
         state.name = ''
@@ -72,34 +68,36 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
 
 <template>
     <div class="p-4 w-full max-w-lg mx-auto">
-        <UButton icon="i-heroicons-arrow-left" color="gray" variant="solid" to="/" class="mb-4">Zurück zum Dashboard
+        <UButton block icon="i-heroicons-arrow-left" color="gray" variant="solid" to="/" class="mb-4">
+            Zurück zum Dashboard
         </UButton>
-        <h1 class="text-xl font-bold">Neue Buchung</h1>
+        <div class="border p-4 rounded-md shadow-sm">
+            <h1 class="text-xl font-bold">Neue Buchung</h1>
 
-        <UForm class="mt-4 flex flex-col gap-4" :validate="validate" :state="state" @submit="onSubmit" @error="onError">
+            <UForm class="mt-4 flex flex-col gap-4" :validate="validate" :state="state" @submit="onSubmit" @error="onError">
 
-            <UFormGroup label="Bezeichnung" name="name">
-                <UInput v-model="state.name" placeholder="Bezeichnung der Buchung" />
-            </UFormGroup>
+                <UFormGroup label="Bezeichnung" name="name">
+                    <UInput v-model="state.name" placeholder="Bezeichnung der Buchung" />
+                </UFormGroup>
 
-            <UFormGroup label="Betrag" name="amount">
-                <UInput placeholder="Betrag" v-model="state.amount" type="number">
-                    <template #trailing>
-                        <span class="text-gray-500 dark:text-gray-400 text-xs">€</span>
-                    </template>
-                </UInput>
-            </UFormGroup>
+                <UFormGroup label="Betrag" name="amount">
+                    <UInput placeholder="Betrag" v-model="state.amount" type="number">
+                        <template #trailing>
+                            <span class="text-gray-500 dark:text-gray-400 text-xs">€</span>
+                        </template>
+                    </UInput>
+                </UFormGroup>
 
-            <UFormGroup label="Buchungsdatum" name="date">
-                <UInput v-model="state.date" type="date" />
-            </UFormGroup>
+                <UFormGroup label="Buchungsdatum" name="date">
+                    <UInput v-model="state.date" type="date" />
+                </UFormGroup>
 
-            <!-- Button to submit the form -->
-            <UButton block type="submit" :class="btnClasses">
-                Buchen
-            </UButton>
+                <!-- Button to submit the form -->
+                <UButton block type="submit" :class="btnClasses">
+                    Buchen
+                </UButton>
 
-        </UForm>
-
+            </UForm>
+        </div>
     </div>
 </template>
