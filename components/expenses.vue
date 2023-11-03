@@ -1,7 +1,5 @@
 <script setup lang="ts">
 
-import { ref } from 'vue'
-
 const data = await useFetch('/api/bookings/expenses', { method: 'GET' }).data.value?.body;
 
 const columns = [
@@ -32,6 +30,13 @@ const items = (row: any) => [
     <div>
         <UButton color="red" icon="i-heroicons-minus" block truncate class="my-2" @click="() => {
             console.log('Neue Ausgabe buchen')
+            useFetch('/api/bookings/expenses', {
+                method: 'POST',
+                body: {
+                    name: 'Test Ausgabe',
+                    amount: -100,
+                }
+            })
         }">
             Neue Ausgabe buchen
         </UButton>
