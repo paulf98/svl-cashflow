@@ -16,13 +16,11 @@ const selectedColumns = ref([columns[0], columns[1], columns[3]])
 
 const items = (row: any) => [
     [{
-        label: 'Edit',
-        icon: 'i-heroicons-pencil-square-20-solid',
-        click: () => console.log('Edit', row.id)
-    }, {
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
-        click: () => console.log('Delete', row.id)
+        click: async () => {
+            await bookings.deleteBooking(row.id)
+        }
     }]
 ]
 

@@ -57,5 +57,23 @@ export const useBookingsStore = defineStore('bookings', {
 			}
 			return [];
 		},
+		async deleteBooking(id: number) {
+			const response = await useFetch(`/api/bookings/?id=${id}`, {
+				method: 'DELETE',
+			}).data.value;
+			if (response && 'body' in response) {
+				// de-serialize the body from the response, need to convert date fields from strings to Date objects
+				const deserializedBody = {
+					...response.body,
+					createdAt: new Date(response.body.createdAt),
+					updatedAt: new Date(response.body.updatedAt),
+				};
+				// remove the deleted booking from the store
+				this.bookings = this.bookings.filter(
+					(booking) => booking.id !== deserializedBody.id
+				);
+				return deserializedBody;
+			}
+		},
 	},
 });
