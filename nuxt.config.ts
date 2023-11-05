@@ -7,6 +7,7 @@ export default defineNuxtConfig({
 	},
 	auth: {
 		origin: process.env.AUTH_ORIGIN,
+		globalAppMiddleware: true,
 	},
 	colorMode: {
 		preference: 'light',
