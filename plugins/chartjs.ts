@@ -9,6 +9,7 @@ import {
 	LineController,
 	LineElement,
 	PointElement,
+	Filler,
 } from 'chart.js';
 
 export default defineNuxtPlugin(() => {
@@ -21,6 +22,7 @@ export default defineNuxtPlugin(() => {
 		LinearScale,
 		LineController,
 		LineElement,
-		PointElement
+		PointElement,
+		Filler
 	);
 });
