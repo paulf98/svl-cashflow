@@ -2,8 +2,7 @@
 import { useBookingsStore } from '@/stores/bookings'
 
 const bookings = useBookingsStore()
-
-const data = bookings.getAllExpenses;
+const { getAllExpenses } = storeToRefs(bookings)
 
 const columns = [
     { key: 'name', label: 'Name' },
@@ -20,6 +19,7 @@ const items = (row: any) => [
         icon: 'i-heroicons-trash-20-solid',
         click: async () => {
             await bookings.deleteBooking(row.id)
+            await bookings.fetchAllBookings();
         }
     }]
 ]
@@ -34,7 +34,7 @@ const items = (row: any) => [
         <div class=" flex py-3.5 border-b border-gray-200 dark:border-gray-700">
             <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Anzeige" />
         </div>
-        <UTable :columns="selectedColumns" :rows="data">
+        <UTable :columns="selectedColumns" :rows="getAllExpenses">
             <template #actions-data="{ row }">
                 <UDropdown :items="items(row)">
                     <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
