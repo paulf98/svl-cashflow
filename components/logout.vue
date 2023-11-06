@@ -7,8 +7,8 @@ const session = await getSession()
     <div class="flex flex-row gap-2 items-center">
         <UPopover>
             <UButton label="Profile" variant="ghost">
-                <NuxtImg v-if="session.user.image" :src="session.user.image" :alt="session.user.name" width="32" height="32"
-                    class="rounded-full" />
+                <NuxtImg v-if="session.user.image" :src="session.user.image || ''" :alt="session.user.name" width="32"
+                    height="32" class="rounded-full" />
             </UButton>
             <template #panel>
                 <div class="p-2">
