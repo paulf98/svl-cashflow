@@ -16,8 +16,8 @@ const balanceClass = computed(
 
 <!-- This component summarizes the current balance of the account -->
 <template>
-  <div class="container mx-auto flex flex-col justify-center items-center p-4 border rounded-lg shadow-md max-w-sm">
-    <h2 class="text-xl mb-2 text-gray-700">Kontostand</h2>
+  <div class="container mx-auto flex flex-col justify-center items-center p-4 border rounded-lg shadow-md">
+    <h2 class="text-xl mb-2 text-gray-700">Aktueller Kontostand</h2>
     <p v-if="balance" class="text-6xl font-bold" :class="balanceClass">{{ balance }} €</p>
     <p v-else class="text-6xl font-bold text-gray-600">0 €</p>
   </div>

@@ -11,7 +11,7 @@ const items = [{
 </script>
 
 <template>
-    <div class="w-full max-w-lg mx-auto">
+    <div class="w-full max-w-xl mx-auto">
         <UTabs :items="items">
             <template #income>
                 <Income />
