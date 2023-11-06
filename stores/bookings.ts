@@ -15,6 +15,24 @@ export const useBookingsStore = defineStore('bookings', {
 			if (!state.bookings.length) return [];
 			return state.bookings.filter((booking) => booking.amount < 0);
 		},
+		getIncomeFromDateBetween: (state) => (from: Date, to: Date) => {
+			if (!state.bookings.length) return [];
+			return state.bookings.filter(
+				(booking) =>
+					booking.amount > 0 &&
+					booking.createdAt >= from &&
+					booking.createdAt <= to
+			);
+		},
+		getExpensesFromDateBetween: (state) => (from: Date, to: Date) => {
+			if (!state.bookings.length) return [];
+			return state.bookings.filter(
+				(booking) =>
+					booking.amount < 0 &&
+					booking.createdAt >= from &&
+					booking.createdAt <= to
+			);
+		},
 	},
 	actions: {
 		async addBooking({

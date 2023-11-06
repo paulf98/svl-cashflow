@@ -1,17 +1,36 @@
 <script lang="ts" setup>
 import { Line } from 'vue-chartjs'
+import { useBookingsStore } from '@/stores/bookings';
+import { getXWeeksAgoDateSpan } from '@/utils/graph-helpers';
+
+const bookings = useBookingsStore()
+const { getExpensesFromDateBetween, getIncomeFromDateBetween } = storeToRefs(bookings)
+const balances = computed(() => calculateBalancePerWeek())
+
+function calculateBalancePerWeek() {
+    const balances = []
+    for (let i = 3; i >= 0; i--) {
+        const { start, end } = getXWeeksAgoDateSpan(i)
+        const expenses = getExpensesFromDateBetween.value(start, end).map((booking) => booking.amount).reduce((a, b) => a + b, 0)
+        const income = getIncomeFromDateBetween.value(start, end).map((booking) => booking.amount).reduce((a, b) => a + b, 0)
+        const balance = expenses + income;
+        balances.push(balance)
+    }
+    console.log(balances)
+    return balances;
+
+}
 
 const chartData = ref({
-    // the last 4 weeks
-    labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+    labels: ['4 Wochen', '3 Wochen', '2 Wochen', 'Aktuell'],
     datasets: [
         {
-            label: 'Entwicklung',
-            data: [40, 20, -10, 50],
+            label: 'Zusammenfassung der letzten Wochen',
+            data: balances.value,
             fill: {
                 target: 'origin',
-                above: 'rgb(0, 200, 0)',   // Area will be red above the origin
-                below: 'rgb(200, 0, 0)'    // And blue below the origin
+                above: '#22C55E',   // Area will be green above the origin
+                below: '#EF4444'    // And red below the origin
             }
         },
     ],
@@ -21,6 +40,7 @@ const chartOptions = ref({
     maintainAspectRatio: false,
 })
 </script>
+
 <template>
     <div class="border shadow-md rounded-md">
         <Line :data="chartData" :options="chartOptions" />
