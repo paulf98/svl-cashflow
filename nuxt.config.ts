@@ -1,7 +1,11 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	devtools: { enabled: true },
-	modules: ['@nuxt/ui', '@sidebase/nuxt-auth', '@pinia/nuxt'],
+	modules: ['@nuxt/ui', '@sidebase/nuxt-auth', '@pinia/nuxt', '@nuxt/image'],
+	image: {
+		// allow loading images from google user profiles
+		domains: ['lh3.googleusercontent.com'],
+	},
 	pinia: {
 		storesDirs: ['./stores/**'],
 	},
