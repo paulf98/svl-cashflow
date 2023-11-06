@@ -25,6 +25,8 @@
   },
   "dependencies": {
     "@nuxt/ui": "^2.10.0",
-    "next-auth": "4.21.1"
+    "chart.js": "^4.4.0",
+    "next-auth": "4.21.1",
+    "vue-chartjs": "^5.2.0"
   }
 }
