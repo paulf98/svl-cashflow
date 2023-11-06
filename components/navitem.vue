@@ -8,7 +8,6 @@ const props = defineProps<{
 // detect the active route 
 const route = useRoute()
 const isActive = computed(() => route.path === props.route)
-console.log(props.route)
 </script>
 
 <template>

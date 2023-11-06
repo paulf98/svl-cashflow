@@ -5,6 +5,7 @@ export default defineNuxtConfig({
 	image: {
 		// allow loading images from google user profiles
 		domains: ['lh3.googleusercontent.com'],
+		dir: 'assets/images',
 	},
 	pinia: {
 		storesDirs: ['./stores/**'],
