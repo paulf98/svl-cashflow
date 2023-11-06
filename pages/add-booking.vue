@@ -72,9 +72,6 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
 
 <template>
     <div class="p-4 w-full max-w-lg mx-auto">
-        <UButton block icon="i-heroicons-arrow-left" color="gray" variant="solid" to="/" class="mb-4">
-            Zurück zum Dashboard
-        </UButton>
         <div class="border p-4 rounded-md shadow-sm">
             <h1 class="text-xl font-bold">Neue Buchung</h1>
 
