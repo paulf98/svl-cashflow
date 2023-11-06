@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../../../prisma/db';
 
 // fetch all bookings from the database
 export default defineEventHandler(async (event) => {

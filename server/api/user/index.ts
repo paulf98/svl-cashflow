@@ -1,7 +1,5 @@
 import { getServerSession } from '#auth';
-import { PrismaClient, User } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../../../prisma/db';
 
 // Endpoint that inserts or returns the user
 export default defineEventHandler(async (event) => {
@@ -15,23 +13,22 @@ export default defineEventHandler(async (event) => {
 		});
 
 		if (user) {
-			return {
-				status: 200,
-				body: user as User,
-			};
+			return user;
 		} else {
 			// write the new user to the database
-			const newUser = await prisma.user.create({
-				data: {
-					email: session.user.email || '',
-					name: session.user.name || '',
-					image: session.user.image || '',
-				},
-			});
-			return {
-				status: 200,
-				body: newUser as User,
-			};
+			const newUser = await prisma.user
+				.create({
+					data: {
+						email: session.user.email || '',
+						name: session.user.name || '',
+						image: session.user.image || '',
+					},
+				})
+				.catch((error) => {
+					console.error(error);
+					return null;
+				});
+			return newUser;
 		}
 	}
 });

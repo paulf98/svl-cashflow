@@ -1,8 +1,6 @@
 // creates a new entry in the bookings table
 import { getServerSession } from '#auth';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../../../prisma/db';
 
 export default defineEventHandler(async (event) => {
 	const session = await getServerSession(event);
@@ -28,17 +26,18 @@ export default defineEventHandler(async (event) => {
 
 	const data = await readBody(event);
 
-	const booking = await prisma.booking.create({
-		data: {
-			...data,
-			amount: Number(data.amount),
-			updatedAt: new Date(),
-			createdById: user.id,
-		},
-	});
-
-	return {
-		status: 200,
-		body: booking,
-	};
+	const booking = await prisma.booking
+		.create({
+			data: {
+				...data,
+				amount: Number(data.amount),
+				updatedAt: new Date(),
+				createdById: user.id,
+			},
+		})
+		.catch((error) => {
+			console.error(error);
+			return null;
+		});
+	return booking;
 });

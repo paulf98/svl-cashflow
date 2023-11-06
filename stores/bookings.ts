@@ -26,7 +26,7 @@ export const useBookingsStore = defineStore('bookings', {
 			amount: number;
 			createdAt?: Date;
 		}) {
-			const response = await useFetch('/api/bookings', {
+			const response: any = await useFetch('/api/bookings', {
 				method: 'POST',
 				body: { name, amount, createdAt },
 			}).data.value;
@@ -42,12 +42,12 @@ export const useBookingsStore = defineStore('bookings', {
 			}
 		},
 		async fetchAllBookings() {
-			const responseBody = await useFetch('/api/bookings', {
+			const { data } = await useFetch('/api/bookings', {
 				method: 'GET',
-			}).data.value?.body;
+			});
 			// de-serialize the body from the response, need to convert date fields from strings to Date objects
-			if (responseBody) {
-				const deserializedBody = responseBody.map((booking: any) => ({
+			if (data && data.value?.body) {
+				const deserializedBody = data.value?.body.map((booking: any) => ({
 					...booking,
 					createdAt: new Date(booking.createdAt),
 					updatedAt: new Date(booking.updatedAt),
@@ -58,22 +58,16 @@ export const useBookingsStore = defineStore('bookings', {
 			return [];
 		},
 		async deleteBooking(id: number) {
-			const response = await useFetch(`/api/bookings/?id=${id}`, {
+			await useFetch(`/api/bookings/?id=${id}`, {
 				method: 'DELETE',
-			}).data.value;
-			if (response && 'body' in response) {
-				// de-serialize the body from the response, need to convert date fields from strings to Date objects
-				const deserializedBody = {
-					...response.body,
-					createdAt: new Date(response.body.createdAt),
-					updatedAt: new Date(response.body.updatedAt),
-				};
-				// remove the deleted booking from the store
-				this.bookings = this.bookings.filter(
-					(booking) => booking.id !== deserializedBody.id
-				);
-				return deserializedBody;
-			}
+				onResponse: (response) => {
+					if (response.response.status === 200) {
+						this.bookings = this.bookings.filter(
+							(booking) => booking.id !== id
+						);
+					}
+				},
+			});
 		},
 	},
 });
