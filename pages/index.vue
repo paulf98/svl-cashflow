@@ -13,6 +13,5 @@ definePageMeta({
     <div class="p-4 flex flex-col gap-8">
         <Balance />
         <Tabs />
-        <Logout />
     </div>
 </template>
