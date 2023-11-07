@@ -6,12 +6,12 @@ const { getAllExpenses } = storeToRefs(bookings)
 
 const columns = [
     { key: 'name', label: 'Name' },
-    { key: 'amount', label: 'Betrag' },
-    { key: 'date', label: 'Datum' },
+    { key: 'amount', label: 'Betrag', sortable: true },
+    { key: 'createdAt', label: 'Datum', sortable: true },
     { key: 'actions', label: 'Aktionen' },
 ]
 
-const selectedColumns = ref([columns[0], columns[1], columns[3]])
+const selectedColumns = ref([...columns])
 
 const items = (row: any) => [
     [{
@@ -35,6 +35,10 @@ const items = (row: any) => [
             <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Anzeige" />
         </div>
         <UTable :columns="selectedColumns" :rows="getAllExpenses">
+            <!-- Translate the date to a readable string -->
+            <template #createdAt-data="{ row }">
+                {{ new Date(row.createdAt).toLocaleDateString('de-DE') }}
+            </template>
             <template #actions-data="{ row }">
                 <UDropdown :items="items(row)">
                     <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
