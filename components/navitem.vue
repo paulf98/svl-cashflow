@@ -13,7 +13,8 @@ const isActive = computed(() => route.path === props.route)
 <template>
     <li>
         <NuxtLink :to="props.route"
-            class="flex flex-row justify-center items-center p-2 px-4 hover:bg-gray-200 rounded-md text-gray-800" :class="{
+            class="flex flex-row text-xs sm:text-base justify-center items-center p-2 px-2 md:px-4 hover:bg-gray-200 rounded-md text-gray-800"
+            :class="{
                 'bg-gray-200': isActive,
                 'hover:bg-gray-200': !isActive
             }">
