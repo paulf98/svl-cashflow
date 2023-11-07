@@ -11,21 +11,36 @@ datasource db {
 }
 
 model Booking {
-  id       Int      @id @default(autoincrement())
-  name     String
-  amount  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  createdBy User @relation(fields: [createdById], references: [id])
+  id          Int      @id @default(autoincrement())
+  name        String
+  amount      Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  createdBy   User     @relation(fields: [createdById], references: [id])
   createdById Int
+  cashbox     Cashbox  @relation(fields: [cashboxId], references: [id])
+  cashboxId   Int
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  name     String
-  email    String   @unique
-  image   String?
-  bookings Booking[]
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id               Int       @id @default(autoincrement())
+  name             String
+  email            String    @unique
+  image            String?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  bookings         Booking[]
+  createdCashboxes Cashbox[] @relation("CashboxCreator")
+  joinedCashboxes  Cashbox[] @relation("CashboxUser")
+}
+
+model Cashbox {
+  id          Int       @id @default(autoincrement())
+  name        String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  createdById Int
+  createdBy   User      @relation("CashboxCreator", fields: [createdById], references: [id])
+  users       User[]    @relation("CashboxUser")
+  bookings    Booking[]
 }
