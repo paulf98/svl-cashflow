@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { useUserStore } from '@/stores/user'
-
 definePageMeta({
     auth: {
         unauthenticatedOnly: true,
@@ -8,17 +6,7 @@ definePageMeta({
     }
 })
 
-const { signIn, getSession } = useAuth()
-const userStore = useUserStore()
-
-// redirect the user if they are already logged in
-const session = await getSession()
-if (session.user) {
-    await userStore.setUser()
-    if (userStore.hasUser) {
-        navigateTo('/')
-    }
-}
+const { signIn } = useAuth()
 </script>
 
 <template>

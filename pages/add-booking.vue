@@ -1,8 +1,4 @@
 <script setup lang="ts">
-definePageMeta({
-    middleware: ['auth'],
-})
-
 import { useBookingsStore } from '@/stores/bookings'
 import type { FormSubmitEvent, FormError, FormErrorEvent } from '#ui/types';
 

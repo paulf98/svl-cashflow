@@ -3,10 +3,6 @@ import { useBookingsStore } from '@/stores/bookings';
 
 const bookings = useBookingsStore();
 await bookings.fetchAllBookings();
-
-definePageMeta({
-    middleware: ['auth'],
-})
 </script>
 
 <template>
