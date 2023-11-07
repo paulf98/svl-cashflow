@@ -5,9 +5,7 @@ import { getXWeeksAgoDateSpan } from '@/utils/graph-helpers';
 
 const bookings = useBookingsStore()
 const { getExpensesFromDateBetween, getIncomeFromDateBetween } = storeToRefs(bookings)
-const balances = computed(() => calculateBalancePerWeek())
-
-function calculateBalancePerWeek() {
+const balances = computed(() => {
     const balances = []
     for (let i = 3; i >= 0; i--) {
         const { start, end } = getXWeeksAgoDateSpan(i)
@@ -16,23 +14,26 @@ function calculateBalancePerWeek() {
         const balance = expenses + income;
         balances.push(balance)
     }
-    return balances;
-}
-
-const chartData = ref({
-    labels: ['4 Wochen', '3 Wochen', '2 Wochen', 'Aktuell'],
-    datasets: [
-        {
-            label: 'Zusammenfassung der letzten Wochen',
-            data: balances.value,
-            fill: {
-                target: 'origin',
-                above: '#22C55E',   // Area will be green above the origin
-                below: '#EF4444'    // And red below the origin
-            }
-        },
-    ],
+    return balances
 })
+
+const chartData = computed(() => {
+    return {
+        labels: ['4 Wochen', '3 Wochen', '2 Wochen', 'Aktuell'],
+        datasets: [
+            {
+                label: 'Zusammenfassung der letzten Wochen',
+                data: balances.value,
+                fill: {
+                    target: 'origin',
+                    above: '#22C55E',   // Area will be green above the origin
+                    below: '#EF4444'    // And red below the origin
+                }
+            },
+        ]
+    }
+})
+
 const chartOptions = ref({
     responsive: true,
     maintainAspectRatio: false,
