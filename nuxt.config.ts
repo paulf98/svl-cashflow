@@ -18,7 +18,7 @@ export default defineNuxtConfig({
 	},
 	ui: {
 		global: true,
-		icons: ['heroicons'],
+		icons: ['heroicons', 'devicon'],
 	},
 	css: ['~/assets/css/main.css'],
 	postcss: {

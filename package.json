@@ -10,6 +10,7 @@
     "postinstall": "prisma generate && nuxt prepare"
   },
   "devDependencies": {
+    "@iconify/json": "^2.2.138",
     "@nuxt/devtools": "latest",
     "@nuxt/image": "^1.0.0",
     "@pinia/nuxt": "^0.5.1",
