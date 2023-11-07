@@ -16,9 +16,7 @@ function calculateBalancePerWeek() {
         const balance = expenses + income;
         balances.push(balance)
     }
-    console.log(balances)
     return balances;
-
 }
 
 const chartData = ref({
