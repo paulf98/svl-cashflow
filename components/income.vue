@@ -40,6 +40,9 @@ const items = (row: any) => [
             <template #createdAt-data="{ row }">
                 {{ new Date(row.createdAt).toLocaleDateString('de-DE') }}
             </template>
+            <template #amount-data="{ row }">
+                <span class="text-green-700 font-bold">{{ row.amount }} €</span>
+            </template>
             <template #actions-data="{ row }">
                 <UDropdown :items="items(row)">
                     <UButton color="gray" variant="ghost" icon="i-heroicons-ellipsis-horizontal-20-solid" />
