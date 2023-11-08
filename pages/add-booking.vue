@@ -16,18 +16,21 @@ await cashboxes.fetchAll()
 
 const { ownCashboxes } = storeToRefs(cashboxes)
 
-const cashboxOptions = computed(() => ownCashboxes.value.map(box => {
-    return {
-        label: box.name,
-        value: box.id
-    }
-}))
+const cashboxOptions = computed(() => {
+    if (ownCashboxes.value.length == 0) return []
+    return ownCashboxes.value.map(box => {
+        return {
+            label: box.name,
+            value: box.id
+        }
+    })
+})
 
 const state = reactive({
     name: '',
     amount: 0,
     date: new Date().toISOString().split('T')[0],
-    cashbox: cashboxOptions.value[0].value
+    cashbox: cashboxOptions.value[0]?.value || 0
 
 })
 
@@ -88,8 +91,10 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
     <div class="p-4 w-full max-w-lg mx-auto">
         <div class="border p-4 rounded-md shadow-sm">
             <h1 class="text-xl font-bold">Neue Buchung</h1>
+            <p class="text-gray-500 dark:text-gray-400">Füge eine neue Buchung hinzu.</p>
 
-            <UForm class="mt-4 flex flex-col gap-4" :validate="validate" :state="state" @submit="onSubmit" @error="onError">
+            <UForm v-if="ownCashboxes.values.length > 0" class="mt-4 flex flex-col gap-4" :validate="validate"
+                :state="state" @submit="onSubmit" @error="onError">
 
                 <UFormGroup label="Bezeichnung" name="name">
                     <UInput v-model="state.name" placeholder="Bezeichnung der Buchung" />
@@ -117,6 +122,16 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
                 </UButton>
 
             </UForm>
+
+            <div v-else class="my-4">
+
+                <p>
+                    Um eine Buchung zu erfassen, brauchst du zuerst eine Kasse.
+                </p>
+                <UButton to="/cashboxes" class="mt-4">
+                    Kasse erstellen
+                </UButton>
+            </div>
         </div>
     </div>
 </template>
