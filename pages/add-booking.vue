@@ -93,8 +93,8 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
             <h1 class="text-xl font-bold">Neue Buchung</h1>
             <p class="text-gray-500 dark:text-gray-400">Füge eine neue Buchung hinzu.</p>
 
-            <UForm v-if="ownCashboxes.values.length > 0" class="mt-4 flex flex-col gap-4" :validate="validate"
-                :state="state" @submit="onSubmit" @error="onError">
+            <UForm v-if="ownCashboxes.length > 0" class="mt-4 flex flex-col gap-4" :validate="validate" :state="state"
+                @submit="onSubmit" @error="onError">
 
                 <UFormGroup label="Bezeichnung" name="name">
                     <UInput v-model="state.name" placeholder="Bezeichnung der Buchung" />
@@ -124,7 +124,6 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
             </UForm>
 
             <div v-else class="my-4">
-
                 <p>
                     Um eine Buchung zu erfassen, brauchst du zuerst eine Kasse.
                 </p>
