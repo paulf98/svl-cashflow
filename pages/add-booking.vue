@@ -1,19 +1,34 @@
 <script setup lang="ts">
 import { useBookingsStore } from '@/stores/bookings'
+import { useCashboxStore } from '@/stores/cashbox'
 import type { FormSubmitEvent, FormError, FormErrorEvent } from '#ui/types';
 
 export type BookingFormData = {
     name: string,
     amount: number,
     date: string,
+    cashbox: number,
 }
 
 const bookings = useBookingsStore()
+const cashboxes = useCashboxStore()
+await cashboxes.fetchAll()
+
+const { ownCashboxes } = storeToRefs(cashboxes)
+
+const cashboxOptions = computed(() => ownCashboxes.value.map(box => {
+    return {
+        label: box.name,
+        value: box.id
+    }
+}))
 
 const state = reactive({
     name: '',
     amount: 0,
-    date: new Date().toISOString().split('T')[0]
+    date: new Date().toISOString().split('T')[0],
+    cashbox: cashboxOptions.value[0].value
+
 })
 
 const validate = (state: any): FormError[] => {
@@ -21,6 +36,7 @@ const validate = (state: any): FormError[] => {
     if (!state.name) errors.push({ path: 'name', message: 'Bezeichnung der Buchung fehlt.' })
     if (!state.amount) errors.push({ path: 'amount', message: 'Betrag kann nicht leer sein.' })
     if (state.amount == 0) errors.push({ path: 'amount', message: 'Betrag kann nicht Null sein.' })
+    if (!state.cashbox) errors.push({ path: 'cashbox', message: 'Buchung muss einer Kasse zugewiesen werden.' })
     return errors
 }
 
@@ -46,6 +62,7 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
         amount: Number(state.amount),
         // convert the string to a date here
         createdAt: state.date ? new Date(state.date) : new Date(),
+        cashbox: state.cashbox
     }
 
     // add the booking to the store and database
@@ -56,6 +73,7 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
         state.name = ''
         state.amount = 0
         state.date = new Date().toISOString().split('T')[0]
+        state.cashbox = ownCashboxes.value[0].id
 
     }).catch((error) => {
         // show error message
@@ -87,6 +105,10 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
 
                 <UFormGroup label="Buchungsdatum" name="date">
                     <UInput v-model="state.date" type="date" />
+                </UFormGroup>
+
+                <UFormGroup label="Kasse" name="cashbox">
+                    <USelect v-model="state.cashbox" :options="cashboxOptions" placeholder="Kasse auswählen..." />
                 </UFormGroup>
 
                 <!-- Button to submit the form -->

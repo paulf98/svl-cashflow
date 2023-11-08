@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { useBookingsStore } from '@/stores/bookings'
+import { useCashboxStore } from '@/stores/cashbox';
 
-const bookings = useBookingsStore()
-const { getAllIncome } = storeToRefs(bookings)
+const cashbox = useCashboxStore();
+await cashbox.fetchAll();
+const { ownCashboxes } = storeToRefs(cashbox)
 
 const columns = [
     { key: 'name', label: 'Name' },
-    { key: 'amount', label: 'Betrag', sortable: true },
-    { key: 'cashbox', label: 'Kasse', sortable: true },
     { key: 'createdAt', label: 'Datum', sortable: true },
     { key: 'actions', label: 'Aktionen' },
 ]
@@ -19,33 +18,22 @@ const items = (row: any) => [
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
         click: async () => {
-            await bookings.deleteBooking(row.id)
-            await bookings.fetchAllBookings();
+            console.log(row.id)
         }
     }]
 ]
-
 </script>
 
 <template>
-    <div>
-        <UButton icon="i-heroicons-plus" block truncate class="my-2" @click="() => navigateTo('/add-booking')">Neue
-            Einnahme buchen
-        </UButton>
-
-        <div class="flex py-3.5 border-b border-gray-200 dark:border-gray-700">
+    <div class="border shadow-md rounded-md p-4 flex-1">
+        <h1 class="text-lg font-bold">Meine Kassen:</h1>
+        <div class=" flex py-3.5 border-b border-gray-200 dark:border-gray-700">
             <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Anzeige" />
         </div>
-        <UTable :columns="selectedColumns" :rows="getAllIncome">
+        <UTable :columns="selectedColumns" :rows="ownCashboxes">
             <!-- Translate the date to a readable string -->
             <template #createdAt-data="{ row }">
                 {{ new Date(row.createdAt).toLocaleDateString('de-DE') }}
-            </template>
-            <template #amount-data="{ row }">
-                <span class="text-green-700 font-bold">{{ row.amount }} €</span>
-            </template>
-            <template #cashbox-data="{ row }">
-                {{ row.cashbox.name }}
             </template>
             <template #actions-data="{ row }">
                 <UDropdown :items="items(row)">
@@ -55,4 +43,3 @@ const items = (row: any) => [
         </UTable>
     </div>
 </template>
-

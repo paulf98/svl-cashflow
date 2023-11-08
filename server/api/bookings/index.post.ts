@@ -32,7 +32,16 @@ export default defineEventHandler(async (event) => {
 				...data,
 				amount: Number(data.amount),
 				updatedAt: new Date(),
-				createdById: user.id,
+				cashbox: {
+					connect: {
+						id: data.cashbox,
+					},
+				},
+				createdBy: {
+					connect: {
+						id: user.id,
+					},
+				},
 			},
 		})
 		.catch((error) => {

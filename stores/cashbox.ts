@@ -9,11 +9,12 @@ export const useCashboxStore = defineStore('cashbox', {
 		ownCashboxes(state) {
 			const userStore = useUserStore();
 			const user = userStore.getUser;
-			console.log(state.cashboxes);
-			console.log(user);
 			return state.cashboxes.filter(
 				(cashbox) => cashbox.createdById === user.id
 			);
+		},
+		getCashboxById: (state) => (id: number) => {
+			return state.cashboxes.find((cashbox) => cashbox.id === id);
 		},
 	},
 	actions: {
@@ -29,10 +30,12 @@ export const useCashboxStore = defineStore('cashbox', {
 				return deserializedBody;
 			}
 		},
-		async create(cashbox: Cashbox) {
+		async create(name: string) {
+			const userStore = useUserStore();
+			const user = userStore.getUser;
 			const { data } = await useFetch('/api/cashbox', {
 				method: 'POST',
-				body: cashbox,
+				body: { createdById: user.id, name },
 			});
 			if (data && data.value) {
 				// de-serialize the body from the response, need to convert date fields from strings to Date objects

@@ -7,6 +7,7 @@ const { getAllExpenses } = storeToRefs(bookings)
 const columns = [
     { key: 'name', label: 'Name' },
     { key: 'amount', label: 'Betrag', sortable: true },
+    { key: 'cashbox', label: 'Kasse', sortable: true },
     { key: 'createdAt', label: 'Datum', sortable: true },
     { key: 'actions', label: 'Aktionen' },
 ]
@@ -29,7 +30,7 @@ const items = (row: any) => [
 <template>
     <div>
         <UButton color="red" icon="i-heroicons-minus" block truncate class="my-2" @click="() => navigateTo('/add-booking')">
-            Neue Ausgabe buchen
+            Ausgabe buchen
         </UButton>
         <div class=" flex py-3.5 border-b border-gray-200 dark:border-gray-700">
             <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Anzeige" />
@@ -41,6 +42,9 @@ const items = (row: any) => [
             </template>
             <template #amount-data="{ row }">
                 <span class="text-red-700 font-bold">{{ row.amount }} €</span>
+            </template>
+            <template #cashbox-data="{ row }">
+                {{ row.cashbox.name }}
             </template>
             <template #actions-data="{ row }">
                 <UDropdown :items="items(row)">

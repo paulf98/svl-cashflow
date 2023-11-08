@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import { useCashboxStore } from './cashbox';
 import { type Booking } from '@prisma/client';
 
 export const useBookingsStore = defineStore('bookings', {
@@ -9,11 +10,29 @@ export const useBookingsStore = defineStore('bookings', {
 		hasBookings: (state) => !!state.bookings,
 		getAllIncome: (state) => {
 			if (!state.bookings.length) return [];
-			return state.bookings.filter((booking) => booking.amount > 0);
+			const income = state.bookings.filter((booking) => booking.amount > 0);
+			if (!income.length) return [];
+			const cashboxStore = useCashboxStore();
+			return income.map((booking) => {
+				const cashbox = cashboxStore.getCashboxById(booking.cashboxId);
+				return {
+					...booking,
+					cashbox,
+				};
+			});
 		},
 		getAllExpenses: (state) => {
 			if (!state.bookings.length) return [];
-			return state.bookings.filter((booking) => booking.amount < 0);
+			const expenses = state.bookings.filter((booking) => booking.amount < 0);
+			if (!expenses.length) return [];
+			const cashboxStore = useCashboxStore();
+			return expenses.map((booking) => {
+				const cashbox = cashboxStore.getCashboxById(booking.cashboxId);
+				return {
+					...booking,
+					cashbox,
+				};
+			});
 		},
 		getIncomeFromDateBetween: (state) => (from: Date, to: Date) => {
 			if (!state.bookings.length) return [];
@@ -39,14 +58,16 @@ export const useBookingsStore = defineStore('bookings', {
 			name,
 			amount,
 			createdAt,
+			cashbox,
 		}: {
 			name: string;
 			amount: number;
 			createdAt?: Date;
+			cashbox?: number;
 		}) {
 			const response: any = await useFetch('/api/bookings', {
 				method: 'POST',
-				body: { name, amount, createdAt },
+				body: { name, amount, createdAt, cashbox },
 			}).data.value;
 			if (response && 'body' in response) {
 				// de-serialize the body from the response, need to convert date fields from strings to Date objects

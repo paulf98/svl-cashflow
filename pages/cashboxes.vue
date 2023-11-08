@@ -2,13 +2,17 @@
 import { useCashboxStore } from '@/stores/cashbox';
 
 const cashbox = useCashboxStore();
-const { ownCashboxes } = storeToRefs(cashbox)
-
 await cashbox.fetchAll();
+
 </script>
 
 <template>
-    <div>
-        Cashboxes
+    <div class="container mx-auto p-4">
+        <div class="flex md:flex-row justify-between items-start gap-4">
+            <MyCashboxes />
+
+            <NewCashbox />
+
+        </div>
     </div>
 </template>
