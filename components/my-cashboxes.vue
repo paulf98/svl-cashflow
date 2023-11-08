@@ -1,13 +1,17 @@
 <script setup lang="ts">
 import { useCashboxStore } from '@/stores/cashbox';
+import { useBookingsStore } from '@/stores/bookings';
 
 const cashbox = useCashboxStore();
 await cashbox.fetchAll();
 const { ownCashboxes } = storeToRefs(cashbox)
 
+const bookings = useBookingsStore();
+const { getBalanceOfCashbox } = storeToRefs(bookings)
+
 const columns = [
     { key: 'name', label: 'Name' },
-    { key: 'createdAt', label: 'Datum', sortable: true },
+    { key: 'cashboxBalance', label: 'Kontostand', sortable: true },
     { key: 'actions', label: 'Aktionen' },
 ]
 
@@ -31,9 +35,8 @@ const items = (row: any) => [
             <USelectMenu v-model="selectedColumns" :options="columns" multiple placeholder="Anzeige" />
         </div>
         <UTable :columns="selectedColumns" :rows="ownCashboxes">
-            <!-- Translate the date to a readable string -->
-            <template #createdAt-data="{ row }">
-                {{ new Date(row.createdAt).toLocaleDateString('de-DE') }}
+            <template #cashboxBalance-data="{ row }">
+                <Amount :amount="getBalanceOfCashbox(row.id)" />
             </template>
             <template #actions-data="{ row }">
                 <UDropdown :items="items(row)">

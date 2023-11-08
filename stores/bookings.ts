@@ -52,6 +52,14 @@ export const useBookingsStore = defineStore('bookings', {
 					booking.createdAt <= to
 			);
 		},
+		getBalanceOfCashbox: (state) => (cashboxId: number) => {
+			if (!state.bookings.length) return 0;
+			const cashboxBookings = state.bookings.filter(
+				(booking) => booking.cashboxId === cashboxId
+			);
+			if (!cashboxBookings.length) return 0;
+			return cashboxBookings.reduce((acc, booking) => acc + booking.amount, 0);
+		},
 	},
 	actions: {
 		async addBooking({

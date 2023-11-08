@@ -41,7 +41,7 @@ const items = (row: any) => [
                 {{ new Date(row.createdAt).toLocaleDateString('de-DE') }}
             </template>
             <template #amount-data="{ row }">
-                <span class="text-red-700 font-bold">{{ row.amount }} €</span>
+                <Amount :amount="row.amount" />
             </template>
             <template #cashbox-data="{ row }">
                 {{ row.cashbox.name }}

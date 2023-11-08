@@ -34,7 +34,7 @@ export default defineEventHandler(async (event) => {
 				updatedAt: new Date(),
 				cashbox: {
 					connect: {
-						id: data.cashbox,
+						id: parseInt(data.cashbox),
 					},
 				},
 				createdBy: {
