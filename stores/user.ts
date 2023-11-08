@@ -11,6 +11,9 @@ export const useUserStore = defineStore('user', {
 		getUser(state) {
 			return state.user;
 		},
+		getUserId(state) {
+			return state.user.id;
+		},
 	},
 	actions: {
 		async setUser(user: User) {
