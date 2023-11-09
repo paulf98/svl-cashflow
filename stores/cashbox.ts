@@ -48,5 +48,14 @@ export const useCashboxStore = defineStore('cashbox', {
 				return deserializedBody;
 			}
 		},
+		async delete(id: number) {
+			const { data } = await useFetch(`/api/cashbox/?id=${id}`, {
+				method: 'DELETE',
+			});
+			if (data && data.value) {
+				this.cashboxes = this.cashboxes.filter((cashbox) => cashbox.id !== id);
+				return data.value;
+			}
+		},
 	},
 });
