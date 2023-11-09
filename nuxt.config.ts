@@ -9,8 +9,14 @@ export default defineNuxtConfig({
 	pinia: {
 		storesDirs: ['./stores/**'],
 	},
+	app: {
+		pageTransition: {
+			name: 'page',
+			mode: 'out-in',
+		},
+	},
 	auth: {
-		origin: process.env.AUTH_ORIGIN,
+		baseURL: process.env.AUTH_BASE_URL,
 		globalAppMiddleware: true,
 	},
 	colorMode: {
