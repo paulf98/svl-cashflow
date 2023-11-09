@@ -1,6 +1,8 @@
 import { NuxtAuthHandler } from '#auth';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from '../../../prisma/db';
+import { createPinia } from 'pinia';
+export const piniaInstance = createPinia();
 import { useUserStore } from '../../../stores/user';
 
 export default NuxtAuthHandler({
