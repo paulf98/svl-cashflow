@@ -16,8 +16,9 @@ export default defineNuxtConfig({
 		},
 	},
 	auth: {
-		baseURL: process.env.AUTH_BASE_URL,
 		globalAppMiddleware: true,
+		// @ts-expect-error Somehow the typing for this is wrong
+		origin: process.env.AUTH_BASE_URL || 'http://localhost:3000',
 	},
 	colorMode: {
 		preference: 'light',

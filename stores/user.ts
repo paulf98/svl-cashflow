@@ -7,7 +7,7 @@ export const useUserStore = defineStore('user', {
 		user: {} as User,
 	}),
 	getters: {
-		hasUser: (state) => !!state.user,
+		hasUser: (state) => state.user.id !== undefined,
 		getUser(state) {
 			return state.user;
 		},
