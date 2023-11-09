@@ -32,7 +32,7 @@ export default NuxtAuthHandler({
 			return true;
 		},
 		async session({ session }) {
-			if (session.user) {
+			if (session && session.user) {
 				let dbUser = await prisma.user.findUnique({
 					where: {
 						email: session.user.email as string,
