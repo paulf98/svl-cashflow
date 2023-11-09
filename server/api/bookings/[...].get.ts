@@ -2,9 +2,7 @@ import { prisma } from '../../../prisma/db';
 
 // fetch all bookings from the database
 export default defineEventHandler(async (event) => {
-	console.log('Fetching all bookings');
 	const query = getQuery(event);
-	console.log(query);
 	const bookings = await prisma.booking.findMany({
 		orderBy: {
 			createdAt: 'desc',

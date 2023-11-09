@@ -1,3 +1,9 @@
+<script setup lang="ts">
+useHead({
+    title: 'SVL Cashflow',
+})
+</script>
+
 <template>
     <div>
         <Navbar />
