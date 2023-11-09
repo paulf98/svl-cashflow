@@ -10,6 +10,8 @@ export type BookingFormData = {
     cashbox: number,
 }
 
+const toast = useToast()
+
 const bookings = useBookingsStore()
 const cashboxes = useCashboxStore()
 await cashboxes.fetchAll()
@@ -70,8 +72,11 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
 
     // add the booking to the store and database
     bookings.addBooking(booking).then(() => {
-        // TODO: show success message
-
+        toast.add({
+            title: 'Buchung wurde hinzugefügt',
+            icon: "i-heroicons-check-circle",
+            timeout: 2000,
+        })
         // then reset the form
         state.name = ''
         state.amount = 0
@@ -84,7 +89,6 @@ async function onSubmit(event: FormSubmitEvent<BookingFormData>) {
     })
 
 }
-
 </script>
 
 <template>

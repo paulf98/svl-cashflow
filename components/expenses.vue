@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { useBookingsStore } from '@/stores/bookings'
 
+const toast = useToast()
+
 const bookings = useBookingsStore()
 const { getAllExpenses } = storeToRefs(bookings)
 
@@ -19,8 +21,15 @@ const items = (row: any) => [
         label: 'Delete',
         icon: 'i-heroicons-trash-20-solid',
         click: async () => {
-            await bookings.deleteBooking(row.id)
-            await bookings.fetchAllBookings();
+            await bookings.deleteBooking(row.id).then(() => {
+                bookings.fetchAllBookings();
+                toast.add({
+                    title: 'Buchung wurde gelöscht',
+                    icon: "i-heroicons-check-circle",
+                    timeout: 2000,
+                })
+            });
+
         }
     }]
 ]

@@ -9,6 +9,7 @@ useHead({
         <Navbar />
         <NuxtLoadingIndicator />
         <NuxtPage />
+        <UNotifications />
     </div>
 </template>
 

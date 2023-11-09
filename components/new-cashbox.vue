@@ -1,13 +1,21 @@
 <script setup lang="ts">
 import { useCashboxStore } from '@/stores/cashbox';
 
+const toast = useToast();
+
 const cashbox = useCashboxStore();
 
 const name = ref('');
 
 const createCashbox = async () => {
-    await cashbox.create(name.value);
-    name.value = '';
+    cashbox.create(name.value).then(() => {
+        toast.add({
+            title: 'Kasse wurde erstellt',
+            icon: "i-heroicons-check-circle",
+            timeout: 2000,
+        })
+        name.value = '';
+    });
 }
 
 </script>

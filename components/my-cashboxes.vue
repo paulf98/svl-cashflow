@@ -2,6 +2,8 @@
 import { useCashboxStore } from '@/stores/cashbox';
 import { useBookingsStore } from '@/stores/bookings';
 
+const toast = useToast();
+
 const cashbox = useCashboxStore();
 await cashbox.fetchAll();
 const { ownCashboxes } = storeToRefs(cashbox)
@@ -29,6 +31,21 @@ function resetDeleteDialogState() {
     deleteDialogState.selectedId = null
     deleteDialogState.selectedName = ''
     deleteDialogState.typedName = ''
+}
+
+async function deleteCashbox() {
+    if (deleteDialogState.selectedId === null) {
+        return
+    }
+    await cashbox.delete(deleteDialogState.selectedId).then(() => {
+        cashbox.fetchAll();
+        toast.add({
+            title: 'Kasse wurde gelöscht',
+            icon: "i-heroicons-check-circle",
+            timeout: 2000,
+        })
+        resetDeleteDialogState()
+    });
 }
 
 
@@ -76,13 +93,8 @@ const items = (row: any) => [
                 <div class="flex justify-end mt-4">
                     <UButton color="gray" variant="ghost" @click="resetDeleteDialogState">Abbrechen</UButton>
                     <UButton color="red" class="ml-2"
-                        :disabled="deleteDialogState.typedName !== deleteDialogState.selectedName" @click="() => {
-                            if (deleteDialogState.selectedId) {
-                                cashbox.delete(deleteDialogState.selectedId)
-                            }
-                            resetDeleteDialogState()
-                        }
-                            ">Löschen</UButton>
+                        :disabled="deleteDialogState.typedName !== deleteDialogState.selectedName" @click="deleteCashbox">
+                        Löschen</UButton>
                 </div>
             </div>
         </UModal>
