@@ -9,6 +9,8 @@ useHead({
         { property: 'og:title', content: 'SVL Cashflow' },
         { property: 'og:description', content: 'SVL Cashflow App - Kassenübersicht' },
         { property: 'og:url', content: 'https://svl-cashflow.paulf.dev/' },
+        // set apple touch icon
+        { property: 'apple-touch-icon', content: './favicon.ico' },
 
     ],
 })
