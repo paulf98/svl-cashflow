@@ -1,9 +1,11 @@
 // client side middleware to set the user from the session in the pinia store
 import { useUserStore } from '@/stores/user';
+import { useBookingsStore } from '@/stores/bookings';
 
 export default defineNuxtRouteMiddleware(async () => {
 	const { getSession } = useAuth();
 	const userStore = useUserStore();
+	const bookings = useBookingsStore();
 
 	if (userStore.hasUser) {
 		return;
@@ -20,6 +22,7 @@ export default defineNuxtRouteMiddleware(async () => {
 				updatedAt: new Date(data.value.updatedAt),
 			};
 			userStore.setUser(user);
+			await bookings.fetchAllBookings();
 		}
 	}
 });

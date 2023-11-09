@@ -16,7 +16,7 @@ export const useUserStore = defineStore('user', {
 		},
 	},
 	actions: {
-		async setUser(user: User) {
+		setUser(user: User) {
 			this.user = user;
 			return user;
 		},

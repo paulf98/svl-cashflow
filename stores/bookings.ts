@@ -7,7 +7,7 @@ export const useBookingsStore = defineStore('bookings', {
 		bookings: [] as Booking[],
 	}),
 	getters: {
-		hasBookings: (state) => !!state.bookings,
+		hasBookings: (state) => state.bookings && state.bookings.length > 0,
 		getAllIncome: (state) => {
 			if (!state.bookings.length) return [];
 			const income = state.bookings.filter((booking) => booking.amount > 0);
@@ -89,7 +89,9 @@ export const useBookingsStore = defineStore('bookings', {
 			}
 		},
 		async fetchAllBookings() {
-			const { data } = await useFetch('/api/bookings', {
+			const userStore = useUserStore();
+			const userId = userStore.getUserId;
+			const { data } = await useFetch(`/api/bookings?userId=${userId}`, {
 				method: 'GET',
 			});
 			// de-serialize the body from the response, need to convert date fields from strings to Date objects

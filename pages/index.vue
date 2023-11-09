@@ -1,10 +1,3 @@
-<script setup>
-import { useBookingsStore } from '@/stores/bookings';
-
-const bookings = useBookingsStore();
-await bookings.fetchAllBookings();
-</script>
-
 <template>
     <div class="container mx-auto p-4 grid grid-cols-12 auto-rows-auto gap-4 md:gap-x-8 lg:gap-x-16">
         <Balance class="md:row-span-1 col-span-12 md:col-span-6 lg:col-span-4 max-h-48" />
