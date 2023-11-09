@@ -8,7 +8,7 @@ await cashbox.fetchAll();
 
 <template>
     <div class="container mx-auto p-4">
-        <div class="flex md:flex-row justify-between items-start gap-4">
+        <div class="flex flex-col-reverse md:flex-row gap-4 md:items-start">
             <MyCashboxes />
             <NewCashbox />
         </div>
