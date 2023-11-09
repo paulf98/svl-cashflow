@@ -8,6 +8,7 @@ export default defineNuxtRouteMiddleware(async () => {
 	const bookings = useBookingsStore();
 
 	if (userStore.hasUser) {
+		await bookings.fetchAllBookings();
 		return;
 	}
 
