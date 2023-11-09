@@ -91,12 +91,11 @@ export const useBookingsStore = defineStore('bookings', {
 		async fetchAllBookings() {
 			const userStore = useUserStore();
 			const userId = userStore.getUserId;
-			const { data } = await useFetch(`/api/bookings?userId=${userId}`, {
-				method: 'GET',
-			});
+			const { data } = await useFetch(`/api/bookings?userId=${userId}`);
 			// de-serialize the body from the response, need to convert date fields from strings to Date objects
-			if (data && data.value?.body) {
-				const deserializedBody = data.value?.body.map((booking: any) => ({
+			if (data && data.value) {
+				// @ts-ignore
+				const deserializedBody = data.value.map((booking: any) => ({
 					...booking,
 					createdAt: new Date(booking.createdAt),
 					updatedAt: new Date(booking.updatedAt),

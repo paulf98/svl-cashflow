@@ -53,6 +53,8 @@ export const useCashboxStore = defineStore('cashbox', {
 				method: 'DELETE',
 			});
 			if (data && data.value) {
+				const bookings = useBookingsStore();
+				await bookings.fetchAllBookings();
 				this.cashboxes = this.cashboxes.filter((cashbox) => cashbox.id !== id);
 				return data.value;
 			}
